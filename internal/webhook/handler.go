@@ -2,9 +2,9 @@ package webhook
 
 import (
 	"fmt"
+	"go/google-forms-webhook/pkg/req"
 	"go/google-forms-webhook/pkg/res"
 	"net/http"
-	"os"
 )
 
 func NewWebhookHandler(router *http.ServeMux) {
@@ -13,25 +13,19 @@ func NewWebhookHandler(router *http.ServeMux) {
 
 func setWebhook() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fileName := "example.txt"
+		body, err := req.HandleBody[SetWebhookRequest](w, r)
 
-		file, err := os.Create(fileName)
 		if err != nil {
-			fmt.Println("Ошибка при создании файла:", err)
-			return
-		}
-		defer file.Close()
-
-		data := "Привет, это текст, записанный в файл!\n"
-
-		_, err = file.WriteString(data)
-		if err != nil {
-			fmt.Println("Ошибка при записи данных:", err)
 			return
 		}
 
-		fmt.Println("Данные успешно записаны в файл:", fileName)
+		fmt.Println("Received webhook request")
 
-		res.Json(w, "Webhook set", http.StatusOK)
+		for _, response := range body.Responses {
+			fmt.Println("Question: ", response.Question)
+			fmt.Println("Answer: ", response.Answer)
+		}
+
+		res.Json(w, "Received webhook request", http.StatusOK)
 	}
 }
