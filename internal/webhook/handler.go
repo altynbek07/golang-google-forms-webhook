@@ -8,12 +8,12 @@ import (
 )
 
 func NewWebhookHandler(router *http.ServeMux) {
-	router.Handle("POST /webhook", setWebhook())
+	router.Handle("POST /webhook", webhook())
 }
 
-func setWebhook() http.HandlerFunc {
+func webhook() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		body, err := req.HandleBody[SetWebhookRequest](w, r)
+		body, err := req.HandleBody[WebhookRequest](w, r)
 
 		if err != nil {
 			return
@@ -21,7 +21,7 @@ func setWebhook() http.HandlerFunc {
 
 		fmt.Println("Received webhook request")
 
-		for _, response := range body.Responses {
+		for _, response := range body.FormResponses {
 			fmt.Println("Question: ", response.Question)
 			fmt.Println("Answer: ", response.Answer)
 		}
