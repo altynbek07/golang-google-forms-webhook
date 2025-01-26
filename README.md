@@ -4,6 +4,7 @@ This project is a webhook server written in Go that processes Google Forms submi
 
 ## Features
 - **Retrieving data**: Retrieving data from the form as soon as the user has filled out and submitted the form
+- **Notify**: TODO
 
 ## Requirements
 - Go (version specified in `go.mod`)
@@ -38,7 +39,8 @@ docker-compose up --build
     Make sure your project is available at http://yourserver:8081 (The text “404 page not found” may appear there, but that's normal)
 
 2. Now we need to customize on the Google Forms side. Go to [Google Forms](https://docs.google.com/forms/) and create your form. After creating your form, click on **Three Dots** > **Apps Script**:
-    <img src="./docs/images/apps_script.png" width="419px" />
+
+    <img src="./docs/images/apps_script.png" width="798px" />
 
 3. Paste this code into the code input field:
     ```javascript
@@ -67,22 +69,27 @@ docker-compose up --build
     }
     ```
     Replace the string `“http://yourserver:8081/webhook”` with your server link where your project is located and save
-    <img src="./docs/images/script_code.png" width="419px" />
+
+    <img src="./docs/images/script_code.png" width="798px" />
 
 4. Now we need to bind the trigger. Open Triggers (clock icon) and create a new trigger.
-    <img src="./docs/images/triggers.png" width="419px" />
 
-    <img src="./docs/images/create_trigger.png" width="419px" />
+    <img src="./docs/images/triggers.png" width="798px" />
+
+    <img src="./docs/images/create_trigger.png" width="798px" />
 
     This is where you have to put these parameters:
      - **Function to Run**: onFormSubmit
      - **Event Source**: From form
      - **Type of event**: On form submit
 
-    <img src="./docs/images/trigger_parametres.png" width="419px" />
+
+    <img src="./docs/images/trigger_parametres.png" width="798px" />
      
 5. All of them. Now you can try filling out the form. The server will process incoming form submissions and handle the data as defined in the code. In the [internal/webhook/handler.go](internal/webhook/handler.go) file, you can customize the logic to suit you. Right now it just shows the data in the console.
-    <img src="./docs/images/handler.png" width="419px" />
+
+    <img src="./docs/images/handler.png" width="798px" />
+
 In the code where you prescribed the webhook setup, you can also get additional form fields from the `formResponse` variable and pass it to `payload`. Don't forget to add these fields to the **WebhookRequest** struct in the [internal/webhook/payload.go](internal/webhook/payload.go)
 
 ## License
