@@ -92,5 +92,10 @@ docker-compose up --build
 
 In the code where you prescribed the webhook setup, you can also get additional form fields from the `formResponse` variable and pass it to `payload`. Don't forget to add these fields to the **WebhookRequest** struct in the [internal/webhook/payload.go](internal/webhook/payload.go)
 
+## TODO
+- Write tests
+- Notify to messengers (Telegram, WhatsApp)
+
+
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
