@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: google_forms_webhook_app
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/app
+    networks:
+      - google_forms_webhook_network
+
+networks:
+  google_forms_webhook_network:
